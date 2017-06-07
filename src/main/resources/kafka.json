@@ -1,0 +1,23 @@
+{
+  //kafka broker地址
+  "brokers": [
+    "192.168.1.11:9092",
+    "192.168.1.12:9092"
+  ],
+  "topic": "nbms-message",
+  //还是按位置查找，如果指定-1,表示从kafka中未被清理的全部消息中查找
+  "offsets": [
+    {
+      "partition": 0,
+      "offset": -1
+    },
+    {
+      "partition": 1,
+      "offset": -1
+    },
+    {
+      "partition": 2,
+      "offset": -1
+    }
+  ]
+}

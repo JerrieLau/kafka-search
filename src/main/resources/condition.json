@@ -1,0 +1,10 @@
+{
+  //查找条件，支持基本类型（short、int、long、float、dubbo、String）的比较，以及字符串的包含条件
+  //kafka-search配置文件，KEY的格式为: =_messageId或>=_sendTime或<=_sendTime或<_sendTime，字段名称支持OGNL表达式，如name,columns[0].value
+  //  ">=_executeTime": "1496660139000"
+  //  "=_name": "642526046db87acb4c82dda822c7c967_yuecai",
+  //  "=_tableName":"bmpfjz_project_ext",
+  //  "@_name":"bmpfjz_project_ext",
+  //  "=_pkValue":1055106934710993549
+  "@_contentMap.content": "朱晓民"
+}
