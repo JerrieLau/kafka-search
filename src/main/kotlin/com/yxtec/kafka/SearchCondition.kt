@@ -1,17 +1,26 @@
 package com.yxtec.kafka
 
+import com.google.common.io.Files
 import com.google.gson.Gson
 import ognl.Ognl
 import ognl.OgnlException
-import org.apache.commons.io.FileUtils
 import java.io.File
 import java.io.IOException
+import java.io.InputStreamReader
 import java.lang.reflect.InvocationTargetException
 import java.lang.reflect.Method
+import java.net.URI
+import java.nio.charset.Charset
 import java.util.*
 
-
-data class Condition(
+/**
+ * 搜索条件
+ *
+ * @author :[刘杰](mailto:liujie@ebnew.com)
+ *
+ * @date :2017-06-05 21:30:09
+ */
+data class SearchCondition(
         /**
          * The Operators.
 
@@ -109,26 +118,28 @@ data class Condition(
          * @date :2017-06-05 21:30:09
          */
         @Throws(IOException::class)
-        internal fun parse(): List<Condition> {
-            val conditions = ArrayList<Condition>()
-
-            //搜索条件：
-            var conf = File("condition.json")
-            if (!conf.exists()) {
-                conf = File(ClassLoader.getSystemResource("condition.json").file)
-            }
-            if (!conf.exists() || !conf.canRead()) {
-                throw RuntimeException("搜索条件配置文件未找到,请检查condition.json文件是否存在!")
-            }
-
-            val conditionContent = FileUtils.readFileToString(conf, "UTF-8")
+        internal fun parse(): List<SearchCondition> {
+            val conditions = ArrayList<SearchCondition>()
             val gson = Gson()
-            val conditionMap = gson.fromJson<Map<String, Comparable<Any>>>(conditionContent, Map::class.java)
+            val conditionMap:Map<String, Comparable<Any>>
+            //搜索条件：
+            val conf = File("condition.json")
+            if (!conf.exists()) {
+                val stream = ClassLoader.getSystemResourceAsStream("condition.json")
+                val reader = InputStreamReader(stream, "UTF-8")
+                conditionMap = gson.fromJson<Map<String, Comparable<Any>>>(reader, Map::class.java)
+                reader.close()
+                stream.close()
+            } else {
+                val conditionContent = Files.toString(conf, Charset.forName("UTF-8"))
+                conditionMap = gson.fromJson<Map<String, Comparable<Any>>>(conditionContent, Map::class.java)
+            }
+
             for ((mKey, mValue) in conditionMap) {
                 val operators = mKey.substringBefore("_")
                 val key = mKey.substringAfter("_")
 
-                val condition = Condition(operators, key, mValue)
+                val condition = SearchCondition(operators, key, mValue)
                 conditions.add(condition)
             }
             return conditions

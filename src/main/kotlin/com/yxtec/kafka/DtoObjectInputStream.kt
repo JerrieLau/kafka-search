@@ -6,6 +6,13 @@ import java.io.ObjectInputStream
 import java.io.ObjectStreamClass
 
 
+/**
+ * Kafka消息查询Dto对象反序列化对象输入流，用于Kafka消息解码时反序化成Dto对象时能装载到DtoClass
+ *
+ * @author :[刘杰](mailto:liujie@ebnew.com)
+ *
+ * @date :2017-06-05 21:30:09
+ */
 class DtoObjectInputStream(input: InputStream) : ObjectInputStream(input) {
 
     /**

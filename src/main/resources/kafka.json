@@ -1,11 +1,10 @@
 {
-  //kafka broker地址
-  "brokers": [
-    "192.168.1.11:9092",
-    "192.168.1.12:9092"
-  ],
+
+  //可选，如果配置该值需跟kafka中的配置文件中的zookeeper.connect配置项保持一致，注意zkConnect与kafka broker必须二者中选其一配置
+  "zkConnect":"192.168.1.11:2181,192.168.1.12:2181,192.168.1.13:2181/nbmskafka",
+  //必须，消息主题
   "topic": "nbms-message",
-  //还是按位置查找，如果指定-1,表示从kafka中未被清理的全部消息中查找
+  //可选，按位置查找，如果指定-1,表示从kafka中未被清理的全部消息中查找
   "offsets": [
     {
       "partition": 0,
